@@ -1,1 +1,1 @@
- This is my Repository, wich includes almost all code i wrote in a timespan of about 3 years.
+In this Repository you can see some of the code ive written.
