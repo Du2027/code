@@ -1,0 +1,31 @@
+body{
+    background-color: black;
+}
+
+a{
+    text-decoration: none;
+    color: white;
+}
+
+#p1{
+    margin-top: 25%;
+    display: inline-block;
+    margin-left: 50%;
+}
+
+#p2{
+    display: inline;
+}
+
+p{
+    padding: 10px;
+    border: 1px rgb(104, 98, 98) solid;
+    border-radius: 10px;
+    box-sizing: border-box;
+    transition: all 300ms;
+}
+
+p:hover{
+    color: aqua;
+    padding-top: 20%;
+}

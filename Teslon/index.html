@@ -1,0 +1,62 @@
+<html>
+        <head>
+                <meta charset="UTF-8">
+                <title>TESLON</title>
+        </head>
+        <body>
+            <style>
+                body{
+                    background-color: black;
+                    height: 100%;
+                    width: 99%;
+                    overflow: hidden;
+                }
+                h1{
+                    position: absolute;
+                    color: white;
+                    font-size: 320%;
+                    left: 38%;
+                    top: 1%;
+                }
+
+                button {
+                    color: white;
+                    background-color: rgb(212, 209, 0);
+                    width: 13%;
+                    height: 25%;
+                    position: absolute;
+                    font-size: 130%;
+                    font-weight: bolder;
+                }
+
+                #Vo{
+                    border-radius: 100px 100px 10px 10px;
+                    left: 43.5%;
+                    top: 15%;
+                }
+                #Li{
+                    border-radius: 100px 10px 10px 100px;
+                    top: 44%;
+                    left: 28%;
+                }
+                #Re{
+                    border-radius: 10px 100px 100px 10px;
+                    top: 44%;
+                    right: 28%;
+                }
+                #Rü{
+                    border-radius: 10px 10px 100px 100px;
+                    bottom: 2%;
+                    left: 43.5%;
+                }
+            </style>
+                <h1>Das Teslon-Projekt</h1>
+
+                <form action="/" method="POST">
+                        <button type="submit" name="controll" value="forward" id="Vo">Vorwärts</button>
+                        <button type="submit" name="controll" value="left" id="Li">Links</button>
+                        <button type="submit" name="controll" value="backward" id="Rü">Rückwärts</button>
+                        <button type="submit" name="controll" value="right" id="Re">Rechts</button>
+                </form>
+        </body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="alla.css">
+        <meta name="author" content="DONK">
+    </head>
+    <body class="body">
+        <center><h1 class="headline">Input</h1></center>
+            <fieldset>
+                <legend>This Website</legend>
+                <p>page about stuff</p>
+            </fieldset><br>
+            <fieldset>
+                <legend>Pls send</legend>
+                <form action="file" method="get">
+                    <label>Username: <input type="text" name="Username" id="1" size="10" maxlength="20" required="required"></label><br>
+                    <label>Password: <input type="password" name="Password" id="2" size="10" maxlength="20" required="required"></label><br><br>
+                    <textarea name="comment" id="2" cols="25" rows="4" placeholder="Enter Comment"></textarea><br><br>
+                    <p>Fav genre:
+                        <input type="radio" name="genre">Pop
+                        <input type="radio" name="genre" checked="checked">Metal
+                        <input type="radio" name="genre">Jazz
+                    </p>
+                    <p>
+                        Fav Music platform:
+                        <input type="checkbox" name="platform" value="spotify">spotify
+                        <input type="checkbox" name="platform" value="other">other
+                    </p>
+                    <select name="devices">
+                        <option value="mobile">mobile</option>
+                        <option value="pc">pc</option>
+                    </select><br><br>
+                    <p>Enter Email:
+                    <input type="email" name="email" placeholder="Email"> <input type="image" src="sub.png" width="100" height="50"><br><br>
+                    <input type="submit" value="upload">
+                    </p>
+                    <input type="hidden" name="u suck" value="lol">
+                    <input type="date" name="date"><br>
+                    <input type="url" placeholder="url"><br>
+                    <input type="search" placeholder="search"><br>
+                </form>
+            </fieldset><br>
+            <form action="post">
+                <input type="file" name="user-file" id=""><br>
+                <input type="submit" value="upload">
+            </form><br>
+        <a href="index.html">back</a>
+    </body>
+</html>

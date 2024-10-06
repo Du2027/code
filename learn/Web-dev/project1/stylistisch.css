@@ -1,0 +1,21 @@
+body{
+    background-color: black;
+    overflow: hidden;
+}
+#sidebar{
+    position: relative;
+    border: 1px solid red;
+    box-sizing: border-box;
+    margin-left: -1.2vh;
+    width: 7vh;
+    height: 100.2vh;
+    margin-top: -1vh;
+}
+
+#content{
+    border: 1px solid blue;
+    box-sizing: border-box;
+    margin-left: 5.7vh;
+    margin-top: -100.2vh;
+    height: 100.2vh;
+}

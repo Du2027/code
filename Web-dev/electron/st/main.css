@@ -1,0 +1,62 @@
+html{overflow:hidden;}
+
+body{
+    background-color: rgb(49, 49, 49);
+}
+
+#before-wrap{
+    box-sizing: border-box;
+    margin-left: -58px;
+    margin-top: -79px;
+    width: 90px;
+    height: 110vh;
+    transition: all 300ms;
+}
+
+#wrapper{
+    position: fixed;
+    border: 0px solid red;
+    box-sizing: border-box;
+    width: 50px;
+    height: 100vh;
+    background-color: rgb(32, 32, 32);
+}
+
+.field{
+    position: relative;
+    border: 0px solid blue;
+    box-sizing: border-box;
+    margin-left: 12%;
+    margin-top: 10px;
+    width: 35px;
+    height: 35px;
+    border-radius: 30%;
+    transition: all 200ms;
+    background-color: rgb(51, 51, 51);
+}
+
+.field:hover{
+    background-color: rgb(136, 136, 136);
+    transform: scale(1.2);
+}
+
+#home-img{
+    position: relative;
+    margin-left: 2px;
+    margin-top: 2px;
+}
+
+#underline{
+    position: relative;
+    border-bottom: 2px solid rgb(104, 104, 104);
+    box-sizing: border-box;
+    margin-top: 10px;
+    width: 35px;
+    margin-left: 6px;
+}
+
+#arrow{
+    position: relative;
+    left: 55px;
+    top: 42%;
+}

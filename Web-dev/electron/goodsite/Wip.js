@@ -1,0 +1,2 @@
+document.getElementById("WIP").addEventListener("mouseover", (event) => {document.getElementById("WIP").innerText = "Work in progress"});
+document.getElementById("WIP").addEventListener("mouseout", (event) => {document.getElementById("WIP").innerText = "WIP"});

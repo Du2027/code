@@ -1,0 +1,20 @@
+{
+  "name": "personal_site",
+  "version": "1.0.0",
+  "description": "personal site of DONK",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "keywords": [
+    "DONKD"
+  ],
+  "author": "DONK",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^22.0.0"
+  },
+  "dependencies": {
+    "firebase": "^9.15.0"
+  }
+}

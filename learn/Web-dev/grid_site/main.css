@@ -1,0 +1,13 @@
+body{
+    background-color: rgb(39, 38, 38);
+}
+
+.pice{
+    border: 1px solid red;
+    display: inline;
+    height: 20px;
+    width: 20px;
+    box-sizing: border-box;
+   
+    margin-left: 10px;
+}

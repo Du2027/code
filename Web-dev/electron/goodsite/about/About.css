@@ -1,0 +1,70 @@
+
+body{
+    background-image: url(aboutback.png);
+    color:white;
+    text-align: center;
+}
+
+#du{
+    font-size: 60px;
+    padding-top: 140px;
+    border-bottom: 2px solid white;
+    text-align: center;
+    box-sizing: border-box;
+    width: 300px;
+    margin: auto;
+    font-family: 'Noto Nastaliq Urdu', serif;
+}
+
+#txt{
+    box-sizing: border-box; 
+    text-align: center;
+    font-family: 'Dancing Script', cursive;
+    font-size: 30px;
+}
+
+#back{
+    position: fixed;
+    bottom: 0px;
+    text-decoration: none;
+    color: white;
+    font-size: 20px;
+}
+
+.aa{
+	font-size:180%;
+	margin:16px;
+	font-family: Calibri, arial, sans-serif;
+}
+.to-top{
+	color:white;
+	padding-top:1.8em;
+	display:inline-block;/* or block */
+	position:relative;
+	border-color:white;
+	text-decoration:none;
+	transition:all .3s ease-out;
+}
+.to-top:before{
+	content:'▲';
+	font-size:.9em;
+	position:absolute;
+	top:0;
+	left:50%;
+	margin-left:-.7em;
+	border:solid .13em white;
+	border-radius:10em;
+	width:1.4em;
+	height:1.4em;
+	line-height:1.3em;
+	border-color:inherit;
+	transition:transform .5s ease-in;
+}
+.to-top:hover{
+	color:rgb(241, 93, 93);
+	border-color:rgb(241, 93, 93);
+}
+.to-top:hover:before{
+	transform: rotate(360deg);
+}
+

@@ -1,0 +1,15 @@
+{
+  "name": "stem",
+  "version": "1.0.0",
+  "description": "this is stem",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "keywords": [],
+  "author": "DONK",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^21.3.0"
+  }
+}

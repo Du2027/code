@@ -1,0 +1,68 @@
+html {
+    font-size: 22px
+}
+
+body {
+    background-image: url(slashes.png)
+}
+
+a {
+    color: white;
+    text-decoration: none; /* del the underline */
+}
+
+abbr{
+    text-decoration: none;
+}
+
+#img1{
+    border-radius: 20%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#title{
+    font-weight: 900;
+    text-align: center;
+    color: white;
+}
+
+.unt {
+    color: white;
+    text-align: center;
+    font-size: 40px;
+    font-weight: bold;
+    border: 0px solid red;
+    width: 300px;
+    padding-top: 180px;
+    margin: auto;
+    box-sizing: border-box;
+}
+
+.border {
+    margin: 15px;
+    box-sizing: border-box;
+    border: 3px solid rgb(255, 0, 0);
+    border-radius: 7px;
+
+    background-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+    display: block;
+    text-align: center;
+
+    width: 400px;
+    padding: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    transition: transform 350ms;
+}
+
+.border:hover {
+    background-color: #ff0000;
+    border-color: #000000;
+    color: rgb(0, 0, 0);
+    font-weight: bolder;
+    transform: translateX(-20%);
+    -webkit-text-stroke: 1px rgb(0, 0, 0);
+}

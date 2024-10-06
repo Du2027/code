@@ -1,0 +1,14 @@
+{
+  "name": "coding_hub",
+  "version": "1.0.0",
+  "description": "My Hub",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "DONK",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^23.1.2"
+  }
+}

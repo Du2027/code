@@ -1,0 +1,1 @@
+void open_game(int window_width, int window_height);
