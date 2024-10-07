@@ -4,3 +4,5 @@ It is mostly just small projects or some Experiments, wich arent worth an own re
 Some Experiments arent finished or began.
 
 raygui.h from  https://github.com/raysan5/raygui
+
+Free to use in any way.
