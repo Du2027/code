@@ -49,4 +49,9 @@
 modules.order
 Module.symvers
 Mkfile.old
-dkms.conf
+dkms.conf       
+
+# Own exclusions
+
+/.dist/
+/.vscode/
