@@ -1,0 +1,14 @@
+Usefull Commands (lvim)
+
+space - listing commands,
+space + l listing more commands
+
+strg + h/j/k/l moving to other window
+:new new window
+
+gd - goto definitio
+space + l + e Explorer
+
+space + s + f find files
+space + bn/bb next tab or prev tab
+space + b + e choose tab to close
