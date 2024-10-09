@@ -1,3 +1,8 @@
- This is my Repository, wich includes almost all code i wrote in a timespan of about 3 years.
+In this Repository you can see some of the code ive written over the Years.
 
- raygui.h from  https://github.com/raysan5/raygui
+It is mostly just small projects or some Experiments, wich arent worth an own repository.
+Some Experiments arent finished or began.
+
+raygui.h from  https://github.com/raysan5/raygui
+
+Free to use in any way.
