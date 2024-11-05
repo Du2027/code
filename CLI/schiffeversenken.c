@@ -74,5 +74,13 @@ int main(int argc, char* argv[]){
    touple mapsize_p2 = {mapsize, mapsize};
 
    print_maps(map_p1, mapsize_p1, map_p2, mapsize_p2, 5);
+
+   for(int i = 0; i < mapsize; i++) {
+      free(map_p1[i]);
+      free(map_p2[i]);
+   }
+   free(map_p1);
+   free(map_p2);
+
    return 0;
 }
