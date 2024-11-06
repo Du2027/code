@@ -48,8 +48,8 @@ int main(int argc, char* argv[]){
       debugmode = true;
    }
 
-   printf("Mapsize : \n");
-   scanf("%d", &mapsize);                 // TODO: check for non-numerical input, would take the ascii value as size
+   printf("How big should the map be?\n");
+   scanf("%d", &mapsize);                 // TODO: check for non-numerical input, would take the ascii value as size; Maybe Rectangular Maps
 
    if(debugmode==true){printf("Mapsize: %d\n", mapsize);}
 
@@ -73,7 +73,31 @@ int main(int argc, char* argv[]){
    touple mapsize_p1 = {mapsize, mapsize};
    touple mapsize_p2 = {mapsize, mapsize};
 
-   print_maps(map_p1, mapsize_p1, map_p2, mapsize_p2, 5);
+   //print_maps(map_p1, mapsize_p1, map_p2, mapsize_p2, 5);
+   char answer;
+   bool beginner;
+
+   while(answer != 'M' && answer != 'm' && answer != 'B' && answer != 'b'){
+      printf("Who is the beginner?((M)e/(B)ot)\n");
+      scanf("%s", &answer);
+   }
+   if(answer == 'M' || answer == 'm'){
+      beginner = true;
+      }
+   else {
+      beginner = false;
+   }
+
+   printf("With how many boats are we playing?\n");
+   int boats;
+   scanf("%d", &boats);
+
+   printf("Conclusion: %d boats on a %d² map with %c as beginner", boats,mapsize,answer);
+
+   bool endgame = false;
+   while (endgame == false) {
+
+   }
 
    for(int i = 0; i < mapsize; i++) {
       free(map_p1[i]);
