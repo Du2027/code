@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
+#include "./putils/colors.h"
 
 typedef struct{
    int x;
@@ -73,7 +74,6 @@ int main(int argc, char* argv[]){
    touple mapsize_p1 = {mapsize, mapsize};
    touple mapsize_p2 = {mapsize, mapsize};
 
-   //print_maps(map_p1, mapsize_p1, map_p2, mapsize_p2, 5);
    char answer;
    bool beginner;
 
@@ -92,12 +92,46 @@ int main(int argc, char* argv[]){
    int boats;
    scanf("%d", &boats);
 
-   printf("Conclusion: %d boats on a %d² map with %c as beginner", boats,mapsize,answer);
+   printf("Conclusion: %d boats on a %d² map with %c as beginner\n", boats,mapsize,answer);
 
    bool endgame = false;
-   while (endgame == false) {
+   int boatsl_p1 = boats;
+   int boatsl_p2 = boats;
+   char boatpos_p1[boats][3];
 
+   for (int i = 0; i < boats; i++) {
+      printf("Where do you want to place a boat? -h or --h for help\n");
+      scanf("%s",boatpos_p1[i]);
+
+      int line = 0;
+      int spalt = 65;
+      bool place = false;
+
+      for (int n = 0; n < mapsize; n++) {
+         if (boatpos_p1[i][0] == (char) spalt && (boatpos_p1[i][1] - '0') * 10 + (boatpos_p1[i][2] - '0') == line) {
+            place = true;
+         }
+
+         for (int n1 = 0; n1 < mapsize; n1++) {
+            if (place == true) {
+               printf("%s%d%s",COLOR_RED,map_p1[n][n1],COLOR_RESET);
+               place = false;
+            }
+            else {
+               printf("%d",map_p1[n][n1]);
+            }
+            spalt++;
+         }
+         line++;
+         printf("\n");
+      }
    }
+
+   /*
+   while (endgame == false) {
+      print_maps(map_p1, mapsize_p1, map_p2, mapsize_p2, 5);
+   }
+   */
 
    for(int i = 0; i < mapsize; i++) {
       free(map_p1[i]);
