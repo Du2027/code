@@ -1,4 +1,5 @@
 #include "psort.h"
+#include <strings.h>
 
 int* psort_int(int arr[], int size){
    int sorted_arr[size];
@@ -32,4 +33,18 @@ int* bubblesort_int(int arr[], int size){
       }
    }
    return arr;
+}
+
+char* bubblesort_chr(char arr[], int size){
+      int buffer;
+      for (int i = 0; i < size - 1; i++) {
+         for (int n = 0; n < size - 1; n++) {
+            if (arr[n] > arr[n+1]) {
+               buffer = arr[n];
+               arr[n] = arr[n+1];
+               arr[n+1] = buffer;
+            }
+         }
+      }
+      return arr;
 }
