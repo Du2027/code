@@ -5,7 +5,7 @@
 int main (int argc, char* argv[]){
   printf("Wich Package Manager are you using?\n");
   printf("Supported Managers are \tapt(1) || dnf(2)\n");
-  
+
   int option = 0;
   char pmanager[5];
 
