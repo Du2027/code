@@ -10,7 +10,7 @@ void print_spaces(short times){
    }
 }
 
-void print_boat_places(int** map1, int size, char** cords, int iteration){
+void print_boat_places(int** map1, int size, int cords[], int iteration){
    int linecount = 65;
    int uebertrag = 0;
 
@@ -82,6 +82,22 @@ void print_maps(int** map1, int** map2, int size, short spaces){
    }
 }
 
+int cord_to_dec(char cord[5], int mapsize){
+   int dec_value = 0;
+   dec_value = (cord[0] - 65) * mapsize;
+
+   if(cord[1] == '0'){
+      dec_value = dec_value + (cord[0] - 65) * mapsize;
+
+      dec_value = dec_value + (cord[3] - '0') * 10 + cord[4] - '0';
+   }
+   else {
+      dec_value = dec_value + (cord[2] - '0') * 10 + cord[3] - '0';
+   }
+
+   return dec_value;
+}
+
 int main(int argc, char **argv){
    int mapsize = 0;
    int boats = 0;
@@ -141,25 +157,35 @@ int main(int argc, char **argv){
       map_p2[i] = malloc(mapsize * sizeof(int));
    }
 
-   char** player_cords = malloc(boats * sizeof(char*));
-   for(int i = 0; i < boats; i++) {
-      player_cords[i] = malloc(5 * sizeof(char));
-   }
+   int player_cords[boats];
+   char buffer[5];
+   bool isvalid = false;
 
    while(place_phase){
       for (int i = 0; i < boats; i++) {
          print_boat_places(map_p1, mapsize, player_cords, i);
-         printf("\nWhere do you want to place a boat? %sXX:XX%s\n", COLOR_BLUE, COLOR_RESET);
-         scanf("%s", player_cords[i]);
+         while (isvalid == false) {
+            printf("\nWhere do you want to place a boat? %sXX:XX%s\n", COLOR_BLUE, COLOR_RESET);
+            scanf("%s", buffer);
+            printf("INT: %d \n", cord_to_dec(buffer, mapsize));
+
+            if(buffer[1] == '0'){
+               if ((buffer[3] - '0' * 10) + buffer[4] - '0' <= mapsize) {
+                  isvalid = true;
+               }
+            }
+            else {
+               if ((buffer[2] - '0') * 10 + buffer[3] - '0' <= mapsize) {
+                  isvalid = true;
+               }
+            }
+            printf("ISVAL");
+         }
+         isvalid = false;
       }
 
       place_phase = false;
    }
-
-   for (int i = 0; i < boats; i++) {
-      free(player_cords[i]);
-   }
-   free(player_cords);
 
    for (int i = 0; i < mapsize; i++) {
       free(map_p1[i]);
