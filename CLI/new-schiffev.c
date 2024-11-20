@@ -87,8 +87,6 @@ int cord_to_dec(char cord[5], int mapsize){
    dec_value = (cord[0] - 65) * mapsize;
 
    if(cord[1] == '0'){
-      dec_value = dec_value + (cord[0] - 65) * mapsize;
-
       dec_value = dec_value + (cord[3] - '0') * 10 + cord[4] - '0';
    }
    else {
@@ -158,6 +156,7 @@ int main(int argc, char **argv){
    }
 
    int player_cords[boats];
+   int cord_buffer = 0;
    char buffer[5];
    bool isvalid = false;
 
@@ -165,23 +164,18 @@ int main(int argc, char **argv){
       for (int i = 0; i < boats; i++) {
          print_boat_places(map_p1, mapsize, player_cords, i);
          while (isvalid == false) {
-            printf("\nWhere do you want to place a boat? %sXX:XX%s\n", COLOR_BLUE, COLOR_RESET);
+            printf("\nWhere do you want to place a boat? %sA0:01%s\n", COLOR_BLUE, COLOR_RESET);
             scanf("%s", buffer);
-            printf("INT: %d \n", cord_to_dec(buffer, mapsize));
+            cord_buffer = cord_to_dec(buffer, mapsize);
+            //printf("INT: %d \n", cord_buffer);
 
-            if(buffer[1] == '0'){
-               if ((buffer[3] - '0' * 10) + buffer[4] - '0' <= mapsize) {
-                  isvalid = true;
-               }
+            if(cord_buffer <= (buffer[0] - 65) * mapsize + mapsize && buffer[0] <= 64 + mapsize && cord_buffer >= 0){
+               isvalid = true;
+               printf("ISVAL\n");
             }
-            else {
-               if ((buffer[2] - '0') * 10 + buffer[3] - '0' <= mapsize) {
-                  isvalid = true;
-               }
-            }
-            printf("ISVAL");
          }
          isvalid = false;
+         cord_buffer = 0;
       }
 
       place_phase = false;
