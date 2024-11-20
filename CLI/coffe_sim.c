@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "putils/colors.h"
 
 int main(int argc, char** argv){
    bool game = true;
