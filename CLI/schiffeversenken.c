@@ -1,3 +1,8 @@
+// Maybe implement some simple AI here so that it wouldnt be completaly random and no doubles
+// Maybe implement bigger ships
+// could break down Main in functions (stages)
+// could use enums for tilestate or something
+
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
@@ -15,8 +20,8 @@ void print_spaces(short times){
 void print_boat_places(int** map1, int size, int cords[], int iteration){
    int linecount = 65;
    int uebertrag = 0;
-
    print_spaces(3);
+
    for (int n = 1; n < size + 1; n++) {
       if(n < 10){
          printf("%s0%d %s", COLOR_BLUE, n, COLOR_RESET);
@@ -50,8 +55,9 @@ void print_boat_places(int** map1, int size, int cords[], int iteration){
 void print_maps(int** map1, int** map2, int size, short spaces, const short MODE, int boats){
    int linecount = 65;
    int uebertrag = 0;
-
    print_spaces(3);
+
+   // line numbers
    for (int i = 0; i < 2; i++) {
       for (int n = 1; n < size + 1; n++) {
          if(n < 10){
@@ -61,10 +67,8 @@ void print_maps(int** map1, int** map2, int size, short spaces, const short MODE
             printf("%s%d %s", COLOR_BLUE, n, COLOR_RESET);
          }
       }
-
       print_spaces(spaces);
    }
-
    printf("\n");
 
    for (int i = 0; i < size; i++) {
@@ -73,11 +77,17 @@ void print_maps(int** map1, int** map2, int size, short spaces, const short MODE
          uebertrag++;
       }
 
+      // p1 map + side letters
       printf("%s%c%d%s ", COLOR_BLUE, linecount, uebertrag, COLOR_RESET);
       for (int n = 0; n < size; n++) {
          if(map1[i][n] == 1){
-            printf("%s", COLOR_GREEN);
-            printf("BB%s ", COLOR_RESET);
+            printf("%sBB%s ", COLOR_GREEN, COLOR_RESET);
+         }
+         else if (map1[i][n] == 2 || map1[i][n] == 3) {
+            printf("%s--%s ", COLOR_RED, COLOR_RESET);
+         }
+         else if (map1[i][n] == -1) {
+            printf("%sNN%s ", COLOR_PURPLE, COLOR_RESET);
          }
          else {
             printf("00 ");
@@ -86,13 +96,21 @@ void print_maps(int** map1, int** map2, int size, short spaces, const short MODE
 
       print_spaces(spaces);
 
+      // p2 map
       for (int n = 0; n < size; n++) {
          if(map2[i][n] == 1 && MODE == 1){
-            printf("%s", COLOR_RED);
+            printf("%s00%s ", COLOR_RED, COLOR_RESET);
          }
-         printf("00%s ", COLOR_RESET);
+         else if(map2[i][n] == 2){
+            printf("%sXX%s ", COLOR_RED, COLOR_RESET);
+         }
+         else if (map2[i][n] == -1) {
+            printf("%sNN%s ", COLOR_PURPLE, COLOR_RESET);
+         }
+         else {
+            printf("00 ");
+         }
       }
-
       printf("\n");
       linecount++;
    }
@@ -108,7 +126,6 @@ int cord_to_dec(char cord[5], int mapsize){
    else {
       dec_value = dec_value + (cord[2] - '0') * 10 + cord[3] - '0';
    }
-
    return dec_value;
 }
 
@@ -123,28 +140,47 @@ int main(int argc, char **argv){
    int beginner = 0;          //0 Uninitialized 1 Me 2 Bot
    bool debugmode = false;
    bool place_phase = true;
+   bool attack_phase = true;
 
    if(argc == 2 && strcmp(argv[1], "-DEBUG") == 0){
-      mapsize = 10;
-      boats = 10;
+      mapsize = 3;
+      boats = 3;
       beginner = 1;
       debugmode = true;
       place_phase = false;
    }
 
+   if(debugmode == false){
+      printf(
+         "%s      _______.  ______  __    __   __   _______  _______  _______                                     \n"
+         "     /       | /      ||  |  |  | |  | |   ____||   ____||   ____|                                      \n"
+         "    |   (----`|  ,----'|  |__|  | |  | |  |__   |  |__   |  |__    ______                               \n"
+         "     \\   \\    |  |     |   __   | |  | |   __|  |   __|  |   __|  |______|                            \n"
+         " .----)   |   |  `----.|  |  |  | |  | |  |     |  |     |  |____                                       \n"
+         " |_______/     \\______||__|  |__| |__| |__|     |__|     |_______|                                     \n"
+         "                                                                                                        \n"
+         " ____    ____  _______ .______           _______. _______ .__   __.  __  ___  _______ .__   __.         \n"
+         " \\   \\  /   / |   ____||   _  \\         /       ||   ____||  \\ |  | |  |/  / |   ____||  \\ |  |    \n"
+         "  \\   \\/   /  |  |__   |  |_)  |       |   (----`|  |__   |   \\|  | |  '  /  |  |__   |   \\|  |     \n"
+         "   \\      /   |   __|  |      /         \\   \\    |   __|  |  . `  | |    <   |   __|  |  . `  |      \n"
+         "    \\    /    |  |____ |  |\\  \\----.----)    |   |  |____ |  |\\   | |  .  \\  |  |____ |  |\\   |   \n"
+         "     \\__/     |_______|| _| `._____||_______/    |_______||__| \\__| |__|\\__\\ |_______||__| \\__|%s\n\n",
+         COLOR_YELLOW, COLOR_RESET);
+   }
+
    while (mapsize == 0 || mapsize < 1 || mapsize > 50) {
-      printf("How big should the map be?\n");
+      printf("How big should the map be?\t");
       scanf("%d", &mapsize);
    }
 
    while (boats <= 0 || boats > 200 || boats >= mapsize * mapsize) {
-      printf("How many boats should be there?\n");
+      printf("How many boats should be there?\t");
       scanf("%d", &boats);
    }
 
    while (beginner == 0){
       char answer[100];
-      printf("Who should beginn (M)e / (B)ot\n");
+      printf("Who should beginn (M)e / (B)ot\t");
       scanf("%s", answer);
       if (answer[0] == 'M' || answer[0] == 'm') {
          beginner = 1;
@@ -157,10 +193,10 @@ int main(int argc, char **argv){
    if (debugmode == false) {
       switch (beginner) {
          case 1:
-            printf("Conclusion: %d² map, %d boats, You as the beginner\n", mapsize, boats);
+            printf("\nConclusion: %d² map, %d boats, You as the beginner\n", mapsize, boats);
             break;
          case 2:
-            printf("Conclusion: %d² map, %d boats, Bot as the beginner\n", mapsize, boats);
+            printf("\nConclusion: %d² map, %d boats, Bot as the beginner\n", mapsize, boats);
             break;
          default:
             printf("%sSOMETHING WENT WRONG, BEGINNER SWITCH ERR%s\n", COLOR_RED, COLOR_RESET);
@@ -196,14 +232,12 @@ int main(int argc, char **argv){
                   if(debugmode){printf("DEBUG:DOUBLE FOUND\n");}
                }
             }
-
             if(cord_buffer <= (buffer[0] - 65) * mapsize + mapsize && buffer[0] <= 64 + mapsize && cord_buffer >= 0 && warschon == false){
                isvalid = true;
                if(debugmode){printf("DEBUG:ISVAL - CORD:%s - INT:%d\n", buffer, cord_buffer);}
             }
             warschon = false;
          }
-
          isvalid = false;
          cords_p[i] = cord_buffer;
          cord_buffer = 0;
@@ -216,7 +250,7 @@ int main(int argc, char **argv){
    int cntr = 0;
    int cords_b[boats];
 
-   for (int i = 0; i < boats; i++) {
+   for (int i = 0; i < boats + 1; i++) {
       while (has_dupes) {
          cntr = 0;
          buff = random_int(mapsize*mapsize);
@@ -286,6 +320,104 @@ int main(int argc, char **argv){
 
    if(debugmode){print_maps(map_p1, map_p2, mapsize, 5, 1, boats);}
    else{print_maps(map_p1, map_p2, mapsize, 5, 0, boats);}
+
+   isvalid = false;
+   int boats_left[] = {boats, boats};
+   int cord_to_attack;
+   zaeler = 0;
+   bool found = false;
+
+   for (int i = 0; i < mapsize * mapsize * 2; i++) {
+      if(beginner == true){
+         printf("\n%sYoure turn to attack!%s %sA0:01%s\n", COLOR_GREEN, COLOR_RESET, COLOR_BLUE, COLOR_RESET);
+         while (isvalid == false) {
+            printf(COLOR_RED);
+            scanf("%s", buffer);
+            printf(COLOR_RESET);
+            cord_buffer = cord_to_dec(buffer, mapsize);
+
+            if(cord_buffer <= (buffer[0] - 65) * mapsize + mapsize && buffer[0] <= 64 + mapsize && cord_buffer >= 0){
+               isvalid = true;
+               if(debugmode){printf("DEBUG:ISVAL - CORD:%s - INT:%d\n", buffer, cord_buffer);}
+            }
+         }
+         zaeler = 0;
+         for (int n = 0; n < boats; n++) {
+            if(cord_buffer == cords_b[n]){
+               boats_left[1]--;
+               for (int n1 = 0; n1 < mapsize; n1++) {
+                  for (int n2 = 0; n2 < mapsize; n2++) {
+                     zaeler++;
+                     if(cords_b[n] == zaeler){
+                        map_p2[n1][n2] = 2;
+                        cord_buffer = -1;
+                        printf("%sHIT!%s\n", COLOR_RED, COLOR_RESET);
+                     }
+                  }
+               }
+               cords_b[n] = -1;
+               zaeler = 0;
+            }
+            else {
+               if(cord_buffer != -1){
+                  for (int n1 = 0; n1 < mapsize; n1++) {
+                     for (int n2 = 0; n2 < mapsize; n2++) {
+                        zaeler++;
+                        if(cord_buffer == zaeler){
+                           map_p2[n1][n2] = -1;          //is somehow running boats times or something
+                           found = true;
+                        }
+                        if(found){break;}
+                     }
+                     if(found){break;}
+                  }
+               }
+            }
+            zaeler = 0;
+            found = false;
+         }
+         isvalid = false;
+         zaeler = 0;
+         if(debugmode){print_maps(map_p1, map_p2, mapsize, 5, 1, boats);}
+         else{print_maps(map_p1, map_p2, mapsize, 5, 0, boats);}
+      }
+      printf("\nYoure opponent is attacking...\n");
+      time_t start = time(NULL);
+      while(time(NULL) - start < 2){}                          // waits 2secs
+
+      cord_to_attack = random_int(mapsize * mapsize);          // can hit same tile multiple times BUG?/Feature?
+      for (int n1 = 0; n1 < mapsize; n1++) {
+         for (int n2 = 0; n2 < mapsize; n2++) {
+            zaeler++;
+            if(zaeler == cord_to_attack){                      //TODO:DEBUGLOG
+               if(map_p1[n1][n2] == 1){
+                  map_p1[n1][n2] = 2;
+                  boats_left[0]--;
+                  printf("%sHE HIT YOU!%s\n", COLOR_RED, COLOR_RESET);
+               }
+               else if (map_p1[n1][n2] == 2) {
+                  printf("Boat already hit...\n");
+               }
+               else {
+                  map_p1[n1][n2] = -1;
+               }
+            }
+         }
+      }
+
+      if(debugmode){print_maps(map_p1, map_p2, mapsize, 5, 1, boats);}
+      else{print_maps(map_p1, map_p2, mapsize, 5, 0, boats);}
+
+      if(boats_left[1] == 0){
+         printf("\n%sYou won%s, no boats left!\n", COLOR_YELLOW, COLOR_RESET);
+         break;
+      }
+      else if (boats_left[0] == 0) {
+         printf("\n%sHE won%s, no boats left!\n", COLOR_PURPLE, COLOR_RESET);
+         break;
+      }
+      beginner = true;
+   }
 
    for (int i = 0; i < mapsize; i++) {
       free(map_p1[i]);
