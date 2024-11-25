@@ -1,6 +1,6 @@
 // Maybe implement some simple AI here so that it wouldnt be completaly random and no doubles
 // Maybe implement bigger ships
-// could break down Main in functions (stages)
+// could break down Main in functions (stages) TODO
 // could use enums for tilestate or something
 
 #include <stdio.h>
@@ -133,6 +133,9 @@ int random_int(int max) {
    return (rand() % max)  + 1;
 }
 
+// --debug
+// --multp
+
 int main(int argc, char **argv){
    srand(time(NULL));
    int mapsize = 0;
@@ -141,6 +144,14 @@ int main(int argc, char **argv){
    bool debugmode = false;
    bool place_phase = true;
    bool attack_phase = true;
+
+   if(argc == 2 && strcmp(argv[1], "-DEBUG") == 0){
+      mapsize = 3;
+      boats = 3;
+      beginner = 1;
+      debugmode = true;
+      place_phase = false;
+   }
 
    if(argc == 2 && strcmp(argv[1], "-DEBUG") == 0){
       mapsize = 3;
@@ -327,7 +338,7 @@ int main(int argc, char **argv){
    zaeler = 0;
    bool found = false;
 
-   for (int i = 0; i < mapsize * mapsize * 2; i++) {
+   while (attack_phase) {     // replace with while(attack_phase), is i used?
       if(beginner == true){
          printf("\n%sYoure turn to attack!%s %sA0:01%s\n", COLOR_GREEN, COLOR_RESET, COLOR_BLUE, COLOR_RESET);
          while (isvalid == false) {
@@ -349,6 +360,7 @@ int main(int argc, char **argv){
                   for (int n2 = 0; n2 < mapsize; n2++) {
                      zaeler++;
                      if(cords_b[n] == zaeler){
+                        if(debugmode){printf("DEBUG:HIT-CORD:%d - COUNTER:%d - STATE:%d\n", cord_buffer, zaeler, map_p2[n1][n2]);}
                         map_p2[n1][n2] = 2;
                         cord_buffer = -1;
                         printf("%sHIT!%s\n", COLOR_RED, COLOR_RESET);
@@ -381,16 +393,18 @@ int main(int argc, char **argv){
          if(debugmode){print_maps(map_p1, map_p2, mapsize, 5, 1, boats);}
          else{print_maps(map_p1, map_p2, mapsize, 5, 0, boats);}
       }
-      printf("\nYoure opponent is attacking...\n");
+      printf("\nYour opponent is attacking...\n");
       time_t start = time(NULL);
       while(time(NULL) - start < 2){}                          // waits 2secs
 
       cord_to_attack = random_int(mapsize * mapsize);          // can hit same tile multiple times BUG?/Feature?
+      if(debugmode){printf("DEBUG:BOT-CORD - %d\n", cord_to_attack);}
       for (int n1 = 0; n1 < mapsize; n1++) {
          for (int n2 = 0; n2 < mapsize; n2++) {
             zaeler++;
             if(zaeler == cord_to_attack){                      //TODO:DEBUGLOG
                if(map_p1[n1][n2] == 1){
+                  if(debugmode){printf("DEBUG:BOT_HIT-CORD:%d - COUNTER:%d - STATE:%d\n", cord_to_attack, zaeler, map_p1[n1][n2]);}
                   map_p1[n1][n2] = 2;
                   boats_left[0]--;
                   printf("%sHE HIT YOU!%s\n", COLOR_RED, COLOR_RESET);
@@ -410,11 +424,11 @@ int main(int argc, char **argv){
 
       if(boats_left[1] == 0){
          printf("\n%sYou won%s, no boats left!\n", COLOR_YELLOW, COLOR_RESET);
-         break;
+         attack_phase = false;
       }
       else if (boats_left[0] == 0) {
          printf("\n%sHE won%s, no boats left!\n", COLOR_PURPLE, COLOR_RESET);
-         break;
+         attack_phase = false;
       }
       beginner = true;
    }
