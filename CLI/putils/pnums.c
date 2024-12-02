@@ -1,5 +1,6 @@
 #include <math.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "pnumsys.h"
 #include <stdbool.h>
@@ -202,7 +203,7 @@ char* bitzerlegung(char* bin_num, int bits, char* result, short stellen){
 
    for (int i = times; i > 0; i--) {
       if(stellen == 3){
-         buffer[0] = bin_num[i]
+         buffer[0] = bin_num[i];
       }
       else {
 
@@ -261,7 +262,7 @@ char* basex_basey(char basex[3], char* numx, int size_numx, char basey[3], char*
       result = numx;
    }
 
-   for (int i = 0; i < size_numx; i++) {
+    for (int i = 0; i < size_numx; i++) {
       int buffer = numx[i];
       if(buffer - '0' > 9){
          buffer = buffer - 7;
@@ -272,37 +273,47 @@ char* basex_basey(char basex[3], char* numx, int size_numx, char basey[3], char*
       }
    }
 
-   if(base2 == DECIMAL){
-      base_to_dez(numx, base1, size_numx, result);
-   }
-   else if (base2 == BINARY) {
-      if (base1 == DECIMAL) {
-         dec_to_bin(numx, size_numx, result);
-      }
-      else if (base1 == OCTAL) {
-         oct_to_bin(numx, size_numx, result);
-      }
-      else if (base1 == HEXADEC) {
-         hex_to_bin(numx, size_numx, result);
-      }
-   }
-   else if (base2 == OCTAL) {
-      if (base1 == DECIMAL) {
-         dec_to_oct(numx, size_numx, result);
-      }
-      else if (base1 == BINARY) {
+   int dezvalue;
+   char* buffer;
 
-      }
-      else if (base1 == HEXADEC) {
+    switch (base1) {
+        case DECIMAL:
+            dezvalue = atoi(numx);
+            break;
+        case HEXADEC:
+            buffer = malloc(sizeof(char) * (size_numx + 1));
+            base_to_dez(numx, HEXADEC, size_numx, buffer);
+            dezvalue = atoi(buffer);
+            free(buffer);
+            break;
+        case OCTAL:
+            buffer = malloc(sizeof(char) * (size_numx + 1));
+            base_to_dez(numx, OCTAL, size_numx, buffer);
+            dezvalue = atoi(buffer); // atoi("AA")???
+            free(buffer);
+            break;
+        case BINARY:
+            buffer = malloc(sizeof(char) * (size_numx + 1));
+            base_to_dez(numx, BINARY, size_numx, buffer);
+            dezvalue = atoi(buffer);
+            free(buffer);
+            break;
+    }
 
-      }
-   }
+    switch (base2) {
+        case DECIMAL:
+            break;
+        case HEXADEC:
+            break;
+        case OCTAL:
+            break;
+        case BINARY:
+            break;
+    }
 
-   printf("BASE1:%d|BASE2:%d\n", base1, base2);
+   // numx to int,
+   // dann Reswertv
+   // dann int to char
+
    return result;
 }
-
-// hex - oct
-// hex  & oct -> bin
-// bin -> all
-// **base x to base y**
