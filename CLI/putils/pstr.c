@@ -9,6 +9,8 @@ int** mk_2d_int(int sizex, int sizey){
    return arr_2d;
 }
 
+// num to string
+
 void rm_2d_int(int** arr_2d, int sizey){
    for (int i = 0; i < sizey; i++) {
       free(arr_2d[i]);

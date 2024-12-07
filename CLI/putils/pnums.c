@@ -2,17 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "pnumsys.h"
+#include "pnums.h"
 #include <stdbool.h>
-
-int pabs(int value){
-    if(value < 0){
-        return value * -1;
-    }
-    else {
-        return value;
-    }
-}
 
 int get_bin_length(int dez_val){
    if(dez_val == 0){return 1;}
@@ -34,7 +25,7 @@ int get_dez_to_oct_length(int dez_val){
    return size_needed;
 }
 
-int base_to_dez(char *numx, int base, int size_numx, char* result){
+int base_to_dez(char *numx, int base, int size_numx){
    int pos = size_numx - 1;
    int sum = 0;
    char buffer;
@@ -50,171 +41,37 @@ int base_to_dez(char *numx, int base, int size_numx, char* result){
       pos--;
    }
 
-   sprintf(result, "%d", sum);
+   return sum;
 }
 
-char* dec_to_bin(char* numx, int size_numx, char* result){
-   int sum = 0;
-   int stelle = pow(10, size_numx - 1);
-   for (int i = 0; i < size_numx; i++) {
-      sum = sum + (numx[i] - '0') *  stelle;
-      stelle = stelle / 10;
+char* restwert(int numx, int base, char* result){
+   int sum = numx;
+   short int max_pos;
+   short int it = 0;
+
+   switch (base) {
+      case BINARY:
+         max_pos = get_bin_length(numx);
+         break;
+      case OCTAL:
+         max_pos = get_dez_to_oct_length(numx);
+         break;
+      case HEXADEC:
+         for (max_pos = 0; pow(10, max_pos) < numx; max_pos++) {};
+         break;
    }
 
-   if(sum == 0){
-      result[0] = '0';
-      return result;
-   }
-
-   int erg = sum;
-   int length = get_bin_length(sum) - 1;
-
-   for(int i = 0; erg != 0; i++) {
-      result[length - i] = (erg % 2) + '0';
-      erg = (erg - (result[length - i] - '0')) / 2;
-   }
-   return result;
-}
-
-char* oct_to_bin(char* numx, int size_numx, char* result){
-   char buffer[3];
-   short null_counter = 0;
-
-   for (int i = 0; i < size_numx; i++) {
-      if(numx[i] == '0'){null_counter++;}
-   }
-
-   if(null_counter == size_numx){
-      result[0] = '0';
-      result[1] = '0';
-      result[2] = '0';
-      return result;
-   }
-
-   for (int i = 0; i < size_numx; i++) {
-      memset(buffer, '0', sizeof(buffer));
-      int erg = numx[i] - '0';
-
-      for(int n = 0; erg != 0; n++) {
-         buffer[2 - n] = (erg % 2) + '0';
-         erg = (erg - (buffer[2 - n] - '0')) / 2;
-
-         if (n == 0 && erg == 0) {
-            buffer[0] = '0';
-            buffer[1] = '0';
-         }
-         else if(n == 1 && erg == 0){
-            buffer[0] = '0';
-         }
-      }
-
-      printf(",%s", buffer);
-
-      result[0 + 3 * i] = buffer[0];
-      result[1 + 3 * i] = buffer[1];
-      result[2 + 3 * i] = buffer[2];
-   }
-   return result;
-}
-
-char* hex_to_bin(char* numx, int size_numx, char* result){
-   char buffer[4];
-   short null_counter = 0;
-
-   for (int i = 0; i < size_numx; i++) {
-      if(numx[i] == '0'){null_counter++;}
-   }
-
-   if(null_counter == size_numx){
-      result[0] = '0';
-      result[1] = '0';
-      result[2] = '0';
-      result[3] = '0';
-      return result;
-   }
-
-   for (int i = 0; i < size_numx; i++) {
-      memset(buffer, '0', sizeof(buffer));
-      int erg = numx[i] - '0';
-
-      if(erg > 9){
-         erg = erg - 7;
-      }
-
-      for(int n = 0; erg != 0; n++) {
-         buffer[3 - n] = (erg % 2) + '0';
-         erg = (erg - (buffer[3 - n] - '0')) / 2;
-
-         if(n == 0 && erg == 0){
-            buffer[0] = '0';
-            buffer[1] = '0';
-            buffer[2] = '0';
-            buffer[3] = '1';
-         }
-      }
-
-      printf(",%s", buffer);
-
-      result[0 + 4 * i] = buffer[0];
-      result[1 + 4 * i] = buffer[1];
-      result[2 + 4 * i] = buffer[2];
-      result[3 + 4 * i] = buffer[3];
-   }
-   return result;
-}
-
-char* dec_to_oct(char* numx, int size_numx, char* result){
-   int sum = 0;
-   int stelle = pow(10, size_numx - 1);
-   for (int i = 0; i < size_numx; i++) {
-      sum = sum + (numx[i] - '0') *  stelle;
-      stelle = stelle / 10;
-   }
-
-   if(sum == 0){
-      result[0] = '0';
-      return result;
-   }
-
-   int length = get_dez_to_oct_length(sum) -1;
-   printf("%d", length);
-   int erg = sum;
-
-   for(int i = 0; erg != 0; i++) {
-      result[length - i] = (erg % 8) + '0';
-      erg = (erg - (result[length - i] - '0')) / 8;
-   }
-   return result;
-}
-
-char* bitzerlegung(char* bin_num, int bits, char* result, short stellen){
-   if(stellen > 4 || stellen < 3){
-      printf("BITZERL-SYNTAXERR\n");
-      return "ERR";
-   }
-
-   int times = 0;
-   if(bits % stellen != 0){times = bits / stellen +1;}
-   else{times = bits / stellen;}
-
-   int sum = 0;
-   int cntr = 0;
-   char buffer[3];
-
-   for (int i = times; i > 0; i--) {
-      if(stellen == 3){
-         buffer[0] = bin_num[i];
+   while(sum != 0){
+      if(sum % base > 10){
+         result[max_pos - it] = sum % base + 55;
       }
       else {
-
+         result[max_pos - it] = sum % base + 48;
       }
+      sum = sum / (base - (sum % base));
+      it++;
    }
-
-
-
-   //sum = sum + (buffer) * pow(base1, pos);
-   //pos--;
-
+   return result;
 }
 
 char* basex_basey(char basex[3], char* numx, int size_numx, char basey[3], char* result){
@@ -274,46 +131,34 @@ char* basex_basey(char basex[3], char* numx, int size_numx, char basey[3], char*
    }
 
    int dezvalue;
-   char* buffer;
+   switch (base1) {
+      case DECIMAL:
+         dezvalue = atoi(numx);
+         break;
+      case HEXADEC:
+         dezvalue = base_to_dez(numx, HEXADEC, size_numx);
+         break;
+      case OCTAL:
+         dezvalue = base_to_dez(numx, OCTAL, size_numx);
+         break;
+      case BINARY:
+         dezvalue = base_to_dez(numx, BINARY, size_numx);
+         break;
+   }
 
-    switch (base1) {
-        case DECIMAL:
-            dezvalue = atoi(numx);
-            break;
-        case HEXADEC:
-            buffer = malloc(sizeof(char) * (size_numx + 1));
-            base_to_dez(numx, HEXADEC, size_numx, buffer);
-            dezvalue = atoi(buffer);
-            free(buffer);
-            break;
-        case OCTAL:
-            buffer = malloc(sizeof(char) * (size_numx + 1));
-            base_to_dez(numx, OCTAL, size_numx, buffer);
-            dezvalue = atoi(buffer); // atoi("AA")???
-            free(buffer);
-            break;
-        case BINARY:
-            buffer = malloc(sizeof(char) * (size_numx + 1));
-            base_to_dez(numx, BINARY, size_numx, buffer);
-            dezvalue = atoi(buffer);
-            free(buffer);
-            break;
-    }
-
-    switch (base2) {
-        case DECIMAL:
-            break;
-        case HEXADEC:
-            break;
-        case OCTAL:
-            break;
-        case BINARY:
-            break;
-    }
-
-   // numx to int,
-   // dann Reswertv
-   // dann int to char
-
+   switch (base2) {
+      case DECIMAL:
+         sprintf(result, "%d", dezvalue);
+         break;
+      case HEXADEC:
+         result = restwert(dezvalue, HEXADEC, result);
+         break;
+      case OCTAL:
+         result = restwert(dezvalue, OCTAL, result);
+         break;
+      case BINARY:
+         result = restwert(dezvalue, BINARY, result);
+         break;
+   }
    return result;
 }
