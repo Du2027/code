@@ -40,7 +40,6 @@ int base_to_dez(char *numx, int base, int size_numx){
       sum = sum + (buffer) * pow(base, pos);
       pos--;
    }
-
    return sum;
 }
 
@@ -54,21 +53,22 @@ char* restwert(int numx, int base, char* result){
          max_pos = get_bin_length(numx);
          break;
       case OCTAL:
-         max_pos = get_dez_to_oct_length(numx);
+         max_pos = get_dez_to_oct_length(numx) - 1;
          break;
       case HEXADEC:
          for (max_pos = 0; pow(10, max_pos) < numx; max_pos++) {};
+         max_pos = max_pos - 1;
          break;
    }
 
    while(sum != 0){
-      if(sum % base > 10){
+      if(sum % base >= 10){
          result[max_pos - it] = sum % base + 55;
       }
       else {
          result[max_pos - it] = sum % base + 48;
       }
-      sum = sum / (base - (sum % base));
+      sum = (sum - (sum % base)) / base;
       it++;
    }
    return result;
@@ -92,6 +92,9 @@ char* basex_basey(char basex[3], char* numx, int size_numx, char basey[3], char*
    else if (strcmp(basex, "dec") == 0 || strcmp(basex, "DEC") == 0) {
       base1 = DECIMAL;
    }
+   else if (strcmp(basex, "dez") == 0 || strcmp(basex, "DEZ") == 0) {
+      base1 = DECIMAL;
+   }
    else if (strcmp(basex, "hex") == 0 || strcmp(basex, "HEX") == 0) {
       base1 = HEXADEC;
    }
@@ -108,6 +111,9 @@ char* basex_basey(char basex[3], char* numx, int size_numx, char basey[3], char*
    else if (strcmp(basey, "dec") == 0 || strcmp(basey, "DEC") == 0) {
       base2 = DECIMAL;
    }
+   else if (strcmp(basey, "dez") == 0 || strcmp(basey, "DEZ") == 0) {
+      base2 = DECIMAL;
+   }
    else if (strcmp(basey, "hex") == 0 || strcmp(basey, "HEX") == 0) {
       base2 = HEXADEC;
    }
@@ -115,11 +121,7 @@ char* basex_basey(char basex[3], char* numx, int size_numx, char basey[3], char*
       printf("BASE2 NOT FOUND\n");
    }
 
-   if(base1 == base2){
-      result = numx;
-   }
-
-    for (int i = 0; i < size_numx; i++) {
+   for (int i = 0; i < size_numx; i++) {
       int buffer = numx[i];
       if(buffer - '0' > 9){
          buffer = buffer - 7;
@@ -145,6 +147,7 @@ char* basex_basey(char basex[3], char* numx, int size_numx, char basey[3], char*
          dezvalue = base_to_dez(numx, BINARY, size_numx);
          break;
    }
+   printf("DEBUGdezval:%d\n", dezvalue);
 
    switch (base2) {
       case DECIMAL:
@@ -154,7 +157,7 @@ char* basex_basey(char basex[3], char* numx, int size_numx, char basey[3], char*
          result = restwert(dezvalue, HEXADEC, result);
          break;
       case OCTAL:
-         result = restwert(dezvalue, OCTAL, result);
+         result = restwert(dezvalue, OCTAL, result);  // prob
          break;
       case BINARY:
          result = restwert(dezvalue, BINARY, result);
