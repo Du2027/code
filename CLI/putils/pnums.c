@@ -48,6 +48,11 @@ char* restwert(int numx, int base, char* result){
    short int max_pos;
    short int it = 0;
 
+   if(sum == 1){
+      result[0] = '1';
+      return result;
+   }
+
    switch (base) {
       case BINARY:
          max_pos = get_bin_length(numx);
