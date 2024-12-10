@@ -1,10 +1,51 @@
-#include "pnums.h"
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdbool.h>
+// This is a combination of all putils
 
+#include "all.h"
+#include <stdio.h>
+#include <math.h>
+#include <string.h>
+#include <stdlib.h>
+
+// ascii
+char ascii_at(int value){
+   if (value < 33 || value >= 127) {
+      return 0;
+   }
+   else {
+      return (char) value;
+   }
+}
+
+// pcount
+int count_dupes(int arr[], int to_count, int size){
+   if(size <= 0){
+      return 0;
+   }
+
+   int dupecount = 0;
+   for (int i = 0; i < size; i++) {
+      if(arr[i] == to_count){
+         dupecount++;
+      }
+   }
+   return dupecount;
+}
+
+int count_str_dupes(char** arr, char* word_to_count, int size){
+   if(size <= 0){
+      return 0;
+   }
+
+   int dupecount = 0;
+   for (int i = 0; i < size; i++) {
+      if(strcmp(word_to_count, arr[i]) == 0){
+         dupecount++;
+      }
+   }
+   return dupecount;
+}
+
+// pnums
 int get_bin_length(int dez_val){
    if(dez_val == 0){return 1;}
 
@@ -181,4 +222,65 @@ char* basex_basey(char basex[3], char* numx, int stellen, char basey[3], char* r
       return result;
    }
    return result;
+}
+
+// psort
+int* bubblesort_int(int arr[], int size){
+   int buffer;
+   for (int i = 0; i < size - 1; i++) {
+      for (int n = 0; n < size - 1 - i; n++) {
+         if (arr[n] > arr[n+1]) {
+            buffer = arr[n];
+            arr[n] = arr[n+1];
+            arr[n+1] = buffer;
+         }
+      }
+   }
+   return arr;
+}
+
+char* bubblesort_chr(char arr[], int size){
+      int buffer;
+      for (int n = 0; n < size - 1; n++) {
+         for (int i = 0; i < size - 1 - n; i++) {
+            if (arr[i] > arr[i+1]) {
+               buffer = arr[i];
+               arr[i] = arr[i+1];
+               arr[i+1] = buffer;
+            }
+         }
+      }
+      return arr;
+}
+
+char** bubblesort_str(char** arr, int sizex, int sizey){
+   char* buffer;
+   for (int n = 0; n < sizey - 1; n++) {
+      for(int i = 0; i < sizey - 1 - n; i++){
+         if (strcmp(arr[i], arr[i+1]) > 0) {
+            buffer = arr[i];
+            arr[i] = arr[i+1];
+            arr[i+1] = buffer;
+         }
+      }
+   }
+   return arr;
+}
+
+// pstr
+int** mk_2d_int(int sizex, int sizey){
+   int** arr_2d = malloc(sizey * sizeof(int*));
+   for(int i = 0; i < sizey; i++){
+      arr_2d[i] = malloc(sizex * sizeof(int));
+   }
+   return arr_2d;
+}
+
+// num to string
+
+void rm_2d_int(int** arr_2d, int sizey){
+   for (int i = 0; i < sizey; i++) {
+      free(arr_2d[i]);
+   }
+   free(arr_2d);
 }
