@@ -79,9 +79,10 @@ char* restwert(int numx, int base, char* result){
    return result;
 }
 
-char* basex_basey(char basex[3], char* numx, int size_numx, char basey[3], char* result){
-   if(size_numx <= 0){
+char* basex_basey(char basex[3], char* numx, int stellen, char basey[3], char* result){
+   if(stellen <= 0){
       printf("BASECONVERSION-SIZE0 ERR\n");
+      result = "ERR";
       return "ERR";
    }
 
@@ -126,7 +127,8 @@ char* basex_basey(char basex[3], char* numx, int size_numx, char basey[3], char*
       printf("BASE2 NOT FOUND\n");
    }
 
-   for (int i = 0; i < size_numx; i++) {
+   // Input validation
+   for (int i = 0; i < stellen; i++) {
       int buffer = numx[i];
       if(buffer - '0' > 9){
          buffer = buffer - 7;
@@ -143,16 +145,15 @@ char* basex_basey(char basex[3], char* numx, int size_numx, char basey[3], char*
          dezvalue = atoi(numx);
          break;
       case HEXADEC:
-         dezvalue = base_to_dez(numx, HEXADEC, size_numx);
+         dezvalue = base_to_dez(numx, HEXADEC, stellen);
          break;
       case OCTAL:
-         dezvalue = base_to_dez(numx, OCTAL, size_numx);
+         dezvalue = base_to_dez(numx, OCTAL, stellen);
          break;
       case BINARY:
-         dezvalue = base_to_dez(numx, BINARY, size_numx);
+         dezvalue = base_to_dez(numx, BINARY, stellen);
          break;
    }
-   printf("DEBUGdezval:%d\n", dezvalue);
 
    switch (base2) {
       case DECIMAL:
@@ -167,6 +168,17 @@ char* basex_basey(char basex[3], char* numx, int size_numx, char basey[3], char*
       case BINARY:
          result = restwert(dezvalue, BINARY, result);
          break;
+   }
+
+   short int iteration = 0;
+   if(result[0] == '0' && stellen > 1){
+      char result_buff[stellen];
+      while(result[iteration + 1] >= '0' && result[iteration + 1] <= '9' || result[iteration + 1] >= 'A' && result[iteration + 1] <= 'F' || result[iteration + 1] == 0){
+         result_buff[iteration] = result[iteration + 1];
+         iteration++;
+      }
+      strcpy(result, result_buff);
+      return result;
    }
    return result;
 }
